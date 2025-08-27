@@ -1,0 +1,92 @@
+CREATE DATABASE LojaOnline;
+USE LojaOnline;
+
+
+CREATE TABLE Clientes (
+    cliente_id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    cidade VARCHAR(50)
+);
+
+CREATE TABLE Produtos (
+    produto_id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    preco DECIMAL(10,2) NOT NULL,
+    estoque INT NOT NULL
+);
+
+CREATE TABLE Pedidos (
+    pedido_id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT,
+    data_pedido DATE,
+    total DECIMAL(10,2),
+    FOREIGN KEY (cliente_id) REFERENCES Clientes(cliente_id)
+);
+
+CREATE TABLE ItensPedido (
+    item_id INT AUTO_INCREMENT PRIMARY KEY,
+    pedido_id INT,
+    produto_id INT,
+    quantidade INT,
+    FOREIGN KEY (pedido_id) REFERENCES Pedidos(pedido_id),
+    FOREIGN KEY (produto_id) REFERENCES Produtos(produto_id)
+);
+
+
+INSERT INTO Clientes (nome, email, cidade) VALUES
+('Ana Costa', 'ana.costa@email.com', 'Curitiba'),
+('Pedro Lima', 'pedro.lima@email.com', 'Fortaleza'),
+('Carla Mendes', 'carla.mendes@email.com', 'Salvador'),
+('Rafael Souza', 'rafael.souza@email.com', 'Porto Alegre'),
+('Fernanda Alves', 'fernanda.alves@email.com', 'Manaus'),
+('Bruno Rocha', 'bruno.rocha@email.com', 'Recife'),
+('Paula Martins', 'paula.martins@email.com', 'Goiânia'),
+('Diego Ribeiro', 'diego.ribeiro@email.com', 'Florianópolis'),
+('Mariana Torres', 'mariana.torres@email.com', 'São Luís'),
+('Thiago Pereira', 'thiago.pereira@email.com', 'Natal');
+
+
+INSERT INTO Produtos (nome, preco, estoque) VALUES
+('Monitor 24"', 800.00, 20),
+('Cadeira Gamer', 1200.00, 15),
+('Headset', 200.00, 40),
+('Impressora', 600.00, 10),
+('Smartphone', 2500.00, 25),
+('Tablet', 1500.00, 12),
+('HD Externo 1TB', 350.00, 50),
+('Webcam Full HD', 180.00, 30),
+('Caixa de Som Bluetooth', 220.00, 35),
+('Carregador Portátil', 100.00, 60);
+
+
+
+INSERT INTO Pedidos (cliente_id, data_pedido, total) VALUES
+(3, '2025-08-05', 1500.00),
+(4, '2025-08-06', 2600.00),
+(5, '2025-08-07', 2100.00),
+(6, '2025-08-08', 380.00),
+(7, '2025-08-09', 1200.00),
+(8, '2025-08-10', 2800.00),
+(9, '2025-08-11', 950.00),
+(10, '2025-08-12', 4000.00),
+(2, '2025-08-13', 1250.00),
+(1, '2025-08-14', 2150.00);
+
+
+
+INSERT INTO ItensPedido (pedido_id, produto_id, quantidade) VALUES
+(3, 5, 1),   -- Smartphone
+(3, 10, 2),  -- Carregador Portátil
+(4, 2, 1),   -- Cadeira Gamer
+(4, 1, 2),   -- Notebook
+(5, 3, 3),   -- Teclado Mecânico
+(5, 7, 1),   -- HD Externo 1TB
+(6, 8, 2),   -- Webcam Full HD
+(7, 6, 1),   -- Tablet
+(8, 5, 2),   -- Smartphone
+(8, 4, 1),   -- Impressora
+(9, 9, 3),   -- Caixa de Som Bluetooth
+(10, 2, 1),  -- Cadeira Gamer
+(10, 3, 2),  -- Teclado Mecânico
+(10, 1, 1);  -- Notebook
